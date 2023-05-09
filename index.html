@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Enlaces a archivos index.html</title>
+</head>
+<body>
+	<h1>Enlaces a archivos index.html</h1>
+	<ul id="enlaces"></ul>
+
+	<script>
+		// Obtener la lista de archivos y carpetas
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', '.');
+		xhr.onload = function() {
+			if (xhr.status === 200) {
+				var list = xhr.responseText.split('\n');
+
+				// Filtrar la lista para incluir solo las carpetas y sus archivos index.html
+				var links = list.filter(function(item) {
+					return item.indexOf('.') === -1 || item === 'index.html';
+				});
+
+				// Generar la lista de enlaces HTML
+				var ul = document.getElementById('enlaces');
+				links.forEach(function(link) {
+					var li = document.createElement('li');
+					var a = document.createElement('a');
+					a.href = link + '/index.html';
+					a.textContent = link;
+					li.appendChild(a);
+					ul.appendChild(li);
+				});
+			}
+		};
+		xhr.send();
+	</script>
+</body>
+</html>
